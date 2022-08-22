@@ -3,14 +3,13 @@ import { Dispatch } from "react";
 import { useForm } from "react-hook-form";
 import markerCardInfo from "src/interfaces/markerCardInfo";
 
-export default function LocationForm({ setLocations, setShowForm, locations}: { 
-    setLocations: Dispatch<markerCardInfo[] | any>,
-    setShowForm: Dispatch<boolean>,
-    locations: markerCardInfo[]
+export default function LocationForm({ setMarkers, setShowForm}: { 
+    setMarkers: Dispatch<markerCardInfo[] | any>,
+    setShowForm: Dispatch<boolean>
 }) {
     const {register, handleSubmit} = useForm<markerCardInfo>();
 
-    const onSubmit = async (data: markerCardInfo) => {
+    const onFormSubmit = async (data: markerCardInfo) => {
         setShowForm(false);
         let newLocation: markerCardInfo = {};
         let res = await axios.get('/findPlace', {
@@ -20,15 +19,19 @@ export default function LocationForm({ setLocations, setShowForm, locations}: {
         });
         newLocation = data;
         newLocation.locationCoordinates = res.data;
-        setLocations([...locations, newLocation]);
+        newLocation.locationThumbnailURL = URL.createObjectURL(data.locationThumbnailFile[0]);
+        setMarkers((prevLocaitons: markerCardInfo[]) => {
+            return [...prevLocaitons, newLocation]
+        });
     }
 
     return(
         <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onFormSubmit)}>
                 <input placeholder="Name" {...register('locationName')}/>
                 <textarea placeholder="Description" cols={30} rows={10} {...register('locationDescription')} />
                 <input placeholder="Address" required={true} {...register('locationAddress')} />
+                <input placeholder="Thumbnail" type={'file'} {...register('locationThumbnailFile')}/>
                 <input type="submit" />
             </form>
         </div>

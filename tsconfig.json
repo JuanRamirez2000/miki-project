@@ -17,8 +17,6 @@
 
         // Strict Checks
         "allowUnreachableCode": false, 
-        "noImplicitAny": true,
-        "strictNullChecks": true, 
 
         // Linter Checks
         "noImplicitReturns": true,
@@ -28,7 +26,8 @@
 
         "jsx": "react-jsx",
         "resolveJsonModule": true
-    },
+        },
+        
     "include": [
         "./**/*.ts",
         "./**/*.tsx"
@@ -39,4 +38,5 @@
     "ts-node": {
         "esm": true
     }
+
 }
