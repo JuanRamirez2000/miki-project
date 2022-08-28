@@ -5,7 +5,6 @@ export default function Marker(markerOptions: markerCardInfo) {
     const [marker, setMarker] = useState<google.maps.Marker>();
     const [infoWindow, setInfowWindow] = useState<google.maps.InfoWindow>();
 
-
     let smoothZoom = (
         map: google.maps.Map,
         max: number,

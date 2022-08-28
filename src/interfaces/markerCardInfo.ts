@@ -3,8 +3,8 @@ export default interface markerCardInfo extends google.maps.MarkerOptions{
     locationDescription?: string,
     locationAddress?: string,
     locationCoordinates?: google.maps.LatLngLiteral,
-    locationThumbnailFile?: File,
-    locationThumbnailURL?: string,
+    //locationThumbnailFile?: FileList,
+    //locationThumbnailURL?: string,
     activeLocationID?: string,
     map?: google.maps.Map
 }
