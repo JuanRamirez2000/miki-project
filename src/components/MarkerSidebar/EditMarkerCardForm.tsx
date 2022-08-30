@@ -1,22 +1,24 @@
-import axios from "axios";
+import { Auth } from "firebase/auth";
+import { Firestore } from "firebase/firestore";
 import { Dispatch } from "react";
 import { useForm } from "react-hook-form";
+import { doc, setDoc } from "firebase/firestore";
+import convertMarkersToFireStore from "src/helpers/convertMarkersToFireStore";
 import markerCardInfo from "src/interfaces/markerCardInfo";
 
-const JSON_BIN_URL = 'https://api.jsonbin.io/v3/b/630321c05c146d63ca79fe63';
-const JSON_BIN_MASTER = process.env.REACT_APP_JSON_BIN_MASTER_KEY as string;
-
-export default function EditMarkerCardForm({ marker, markerList, setMarkerList, setEditMarkerID }:
+export default function EditMarkerCardForm({ marker, markerList, setMarkerList, setEditMarkerID, fireStoreDB, authUser }:
     {
         marker: markerCardInfo,
         markerList: markerCardInfo[],
         setMarkerList: Dispatch<markerCardInfo[]>,
-        setEditMarkerID: Dispatch<string>
+        setEditMarkerID: Dispatch<string>,
+        fireStoreDB: Firestore,
+        authUser: Auth
     }) {
     const { register, handleSubmit } = useForm<markerCardInfo>()
 
     //This function creates a new editedObject then replaces it in the list
-    const onFormSubmit = (data) => {
+    const onFormSubmit = async (data) => {
         let editedMarker: markerCardInfo = data
         editedMarker.locationCoordinates = marker.locationCoordinates
 
@@ -28,16 +30,9 @@ export default function EditMarkerCardForm({ marker, markerList, setMarkerList, 
                 return unEditedMarker
             }
         })
-
-        axios.put(JSON_BIN_URL, {
-            markers: newMarkers
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': JSON_BIN_MASTER
-            }
-        });
-
+        let markersRef = doc(fireStoreDB, 'users', authUser.currentUser.email)
+        let markers = convertMarkersToFireStore(newMarkers);
+        await setDoc(markersRef, { markers });
         setMarkerList(newMarkers);
         setEditMarkerID("");
     }
@@ -46,9 +41,6 @@ export default function EditMarkerCardForm({ marker, markerList, setMarkerList, 
             <form onSubmit={handleSubmit(onFormSubmit)}>
                 <input defaultValue={marker.locationName} {...register('locationName')} />
                 <textarea defaultValue={marker.locationDescription} cols={30} rows={10} {...register('locationDescription')} />
-                {/* 
-                <input type={'file'} {...register('locationThumbnailFile')}/>
-                */}
                 <input type="submit" />
             </form>
         </div>

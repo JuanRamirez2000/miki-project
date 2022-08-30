@@ -6,52 +6,57 @@ import markerCardInfo from './interfaces/markerCardInfo';
 import MarkerCardSidebar from './components/MarkerSidebar/MarkerCardSidebar';
 import { useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, doc,  getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import {
   getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
   onAuthStateChanged
 } from 'firebase/auth';
+import ChooseAccount from './components/MarkerSidebar/ChooseAccount';
+
+const { 
+  REACT_APP_FIREBASE_API_KEY,
+  REACT_APP_FIREBASE_AUTH_DOMAIN,
+  REACT_APP_FIREBASE_PROJECT_ID,
+  REACT_APP_FIREBASE_STORAGE_BUCKET,
+  REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  REACT_APP_FIREBASE_APP_ID, 
+  REACT_APP_MAPS_API_KEY } = process.env
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
+  apiKey: REACT_APP_FIREBASE_API_KEY,
+  authDomain: REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: REACT_APP_FIREBASE_APP_ID
 };
 
 //initialize firebase app and auth for google Identity
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider(); 
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_MAPS_API_KEY as string;
+const GOOGLE_MAPS_API_KEY = REACT_APP_MAPS_API_KEY as string;
 
 function App() {
   const [markers, setMarkers] = useState<markerCardInfo[] | any>([])
   const [activeMarkerID, setActiveMarkerID] = useState<string>("")
+  const [userSignedIn, setUserSignedIn] = useState<boolean>(false)
 
   //Checks whether a user is signed in or not
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user){
-        console.log(auth.currentUser)
+        console.log(`The user ${auth.currentUser.email} is signed in`)
+        setUserSignedIn(true);
+        getDoc(doc(db, 'users', auth.currentUser.email)).then((res) => {
+          setMarkers(res.data()['markers']);
+        });
       }
       else {
-        signInWithPopup(auth, provider);
-        console.log("No user is logged in")
+        console.log("No user is logged in");
       }
     });
-  })
-
-  let getUserInfo = () => {
-      getDoc(doc(db, 'users', auth.currentUser.email)).then((res) => {
-        setMarkers(res.data()['markers']);
-     })
-  }
+  }, [])
 
   return (
     <div className="flex h-full flex-col md:flex-row"> 
@@ -67,11 +72,19 @@ function App() {
           />))}
         </Map>
       </Wrapper>
-      <MarkerCardSidebar 
+
+      {userSignedIn && 
+        <MarkerCardSidebar 
         markers={markers} 
         setMarkerList={setMarkers} 
-        setActiveMarker= {setActiveMarkerID} /> 
-      <button onClick={getUserInfo}> Testing button</button>
+        setActiveMarker={setActiveMarkerID}
+        fireStoreDB={db}
+        authUser={auth} /> 
+      }
+      {!userSignedIn && 
+        <ChooseAccount 
+          googleApp={app}/>  
+      }
     </div>
   );
 }

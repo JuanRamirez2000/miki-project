@@ -1,13 +1,17 @@
+import { Auth } from "firebase/auth";
+import { Firestore } from "firebase/firestore";
 import { Dispatch, useState } from "react";
 import markerCardInfo from "src/interfaces/markerCardInfo";
 import EditMarkerCardForm from "./EditMarkerCardForm";
 import MarkerCard from "./MarkerCard";
 import NewMarkerForm from "./NewMarkerForm";
 
-export default function MarkerCardSidebar({ markers, setMarkerList, setActiveMarker }: {
+export default function MarkerCardSidebar({ markers, setMarkerList, setActiveMarker, fireStoreDB, authUser }: {
     markers: markerCardInfo[] | any,
     setMarkerList: Dispatch<markerCardInfo[] | any>,
-    setActiveMarker: Dispatch<string>
+    setActiveMarker: Dispatch<string>,
+    fireStoreDB: Firestore,
+    authUser: Auth
 }) {
     const [addLocationForm, setAddMarkerForm] = useState<boolean>(false);
     const [editMarkerID, setEditMarkerID] = useState<string>("");
@@ -23,8 +27,18 @@ export default function MarkerCardSidebar({ markers, setMarkerList, setActiveMar
                         setMarkerList={setMarkerList}
                         setActiveMarker={setActiveMarker}
                         setEditMarkerID={setEditMarkerID}
+                        fireStoreDB={fireStoreDB}
+                        authUser={authUser} 
                     /> :
-                    <EditMarkerCardForm key={i} marker={marker} markerList={markers} setMarkerList={setMarkerList} setEditMarkerID={setEditMarkerID} />
+                    <EditMarkerCardForm 
+                        key={i} 
+                        marker={marker} 
+                        markerList={markers} 
+                        setMarkerList={setMarkerList} 
+                        setEditMarkerID={setEditMarkerID}
+                        fireStoreDB={fireStoreDB}
+                        authUser={authUser}
+                        />
             })}
             {!addLocationForm &&
                 <button className="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded  mx-4"
@@ -32,7 +46,12 @@ export default function MarkerCardSidebar({ markers, setMarkerList, setActiveMar
             }
 
             {addLocationForm &&
-                <NewMarkerForm markers={markers} setMarkers={setMarkerList} setShowForm={setAddMarkerForm} />
+                <NewMarkerForm 
+                    markers={markers} 
+                    setMarkers={setMarkerList} 
+                    setShowForm={setAddMarkerForm}
+                    fireStoreDB={fireStoreDB}
+                    authUser={authUser} />
             }
         </div>
     );

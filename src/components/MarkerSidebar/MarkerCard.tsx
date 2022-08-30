@@ -1,16 +1,17 @@
-import axios from "axios";
+import { Auth } from "firebase/auth";
+import { doc, Firestore, setDoc } from "firebase/firestore";
 import { Dispatch } from "react";
+import convertMarkersToFireStore from "src/helpers/convertMarkersToFireStore";
 import markerCardInfo from "src/interfaces/markerCardInfo"
 
-const JSON_BIN_URL = 'https://api.jsonbin.io/v3/b/630321c05c146d63ca79fe63';
-const JSON_BIN_MASTER = process.env.REACT_APP_JSON_BIN_MASTER_KEY as string;
-
-export default function MarkerCard({ marker, markerList, setMarkerList, setActiveMarker, setEditMarkerID }: {
+export default function MarkerCard({ marker, markerList, setMarkerList, setActiveMarker, setEditMarkerID, fireStoreDB, authUser }: {
     marker: markerCardInfo,
     markerList: markerCardInfo[],
     setMarkerList: Dispatch<markerCardInfo[]>
     setActiveMarker: Dispatch<string>,
-    setEditMarkerID: Dispatch<string>
+    setEditMarkerID: Dispatch<string>,
+    fireStoreDB: Firestore,
+    authUser: Auth
 }) {
 
     let updateActiveState = () => {
@@ -22,21 +23,16 @@ export default function MarkerCard({ marker, markerList, setMarkerList, setActiv
     }
 
     //funciton used to delete a card
-    let deleteCard = () => {
+    let deleteCard = async () => {
         //Filter list of cards and return the one where the name is the same
-        //This will be replaced with unique cardID's in version 2
+        //This will be replaced with unique cardID's in version 
         let newMarkers = markerList.filter(removedMarker =>
             removedMarker.locationName !== marker.locationName
         )
-        axios.put(JSON_BIN_URL, {
-            markers: newMarkers
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Master-Key': JSON_BIN_MASTER
-            }
-        })
 
+        let markersRef = doc(fireStoreDB, 'users', authUser.currentUser.email)
+        let markers = convertMarkersToFireStore(newMarkers);
+        await setDoc(markersRef, {markers});
         setMarkerList(newMarkers);
     }
 
@@ -47,9 +43,6 @@ export default function MarkerCard({ marker, markerList, setMarkerList, setActiv
                 <p className="text-grey-700 text-base mx-4 px-4">{marker.locationDescription}</p>
                 <button onClick={updateEditState} className="bg-green-500 hover:bg-green-700 text-white font-bold rounded mx-4 px-4"> Edit </button>
                 <button onClick={deleteCard} className="bg-red-500 hover:bg-red-700 text-white font-bold rounded mx-4 px-4"> Delete </button>
-                {/*marker.locationThumbnailURL ?
-                    <img src={marker.locationThumbnailURL} alt="" />
-                : null*/}
             </div>
         </div>
     )
