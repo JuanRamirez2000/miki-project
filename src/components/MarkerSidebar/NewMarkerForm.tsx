@@ -31,7 +31,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
 
             let newMarkers = [...markers, newLocation];
             const markersRef = doc(fireStoreDB, 'users', authUser.currentUser.email);
-            await updateDoc(markersRef,{
+            await updateDoc(markersRef, {
                 markers: arrayUnion({
                     locationName: newLocation.locationName,
                     locationDescription: newLocation.locationDescription,

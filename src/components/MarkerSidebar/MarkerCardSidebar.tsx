@@ -16,6 +16,11 @@ export default function MarkerCardSidebar({ markers, setMarkerList, setActiveMar
     const [addLocationForm, setAddMarkerForm] = useState<boolean>(false);
     const [editMarkerID, setEditMarkerID] = useState<string>("");
 
+    let signOutUser = () => {
+        authUser.signOut()
+        setMarkerList([]);
+    }
+
     return (
         <div className="basis-1/4 2xl:basis-1/3 overflow-auto bg-gray-600" id="locations-wrapper">
             {markers.map((marker: markerCardInfo, i: number) => {
@@ -28,17 +33,17 @@ export default function MarkerCardSidebar({ markers, setMarkerList, setActiveMar
                         setActiveMarker={setActiveMarker}
                         setEditMarkerID={setEditMarkerID}
                         fireStoreDB={fireStoreDB}
-                        authUser={authUser} 
+                        authUser={authUser}
                     /> :
-                    <EditMarkerCardForm 
-                        key={i} 
-                        marker={marker} 
-                        markerList={markers} 
-                        setMarkerList={setMarkerList} 
+                    <EditMarkerCardForm
+                        key={i}
+                        marker={marker}
+                        markerList={markers}
+                        setMarkerList={setMarkerList}
                         setEditMarkerID={setEditMarkerID}
                         fireStoreDB={fireStoreDB}
                         authUser={authUser}
-                        />
+                    />
             })}
             {!addLocationForm &&
                 <button className="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded  mx-4"
@@ -46,12 +51,16 @@ export default function MarkerCardSidebar({ markers, setMarkerList, setActiveMar
             }
 
             {addLocationForm &&
-                <NewMarkerForm 
-                    markers={markers} 
-                    setMarkers={setMarkerList} 
+                <NewMarkerForm
+                    markers={markers}
+                    setMarkers={setMarkerList}
                     setShowForm={setAddMarkerForm}
                     fireStoreDB={fireStoreDB}
                     authUser={authUser} />
+            }
+
+            {
+                <button className="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded  mx-4" onClick={signOutUser}> Sign Out</button>
             }
         </div>
     );

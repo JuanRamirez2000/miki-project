@@ -13,13 +13,13 @@ import {
 } from 'firebase/auth';
 import ChooseAccount from './components/MarkerSidebar/ChooseAccount';
 
-const { 
+const {
   REACT_APP_FIREBASE_API_KEY,
   REACT_APP_FIREBASE_AUTH_DOMAIN,
   REACT_APP_FIREBASE_PROJECT_ID,
   REACT_APP_FIREBASE_STORAGE_BUCKET,
   REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  REACT_APP_FIREBASE_APP_ID, 
+  REACT_APP_FIREBASE_APP_ID,
   REACT_APP_MAPS_API_KEY } = process.env
 
 const firebaseConfig = {
@@ -45,21 +45,27 @@ function App() {
   //Checks whether a user is signed in or not
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user){
+      if (user) {
         console.log(`The user ${auth.currentUser.email} is signed in`)
         setUserSignedIn(true);
         getDoc(doc(db, 'users', auth.currentUser.email)).then((res) => {
-          setMarkers(res.data()['markers']);
+          if(res.exists()){
+            setMarkers(res.data()['markers']);
+          }
+          else {
+            console.log("No user was available");
+          }
         });
       }
       else {
+        setUserSignedIn(false);
         console.log("No user is logged in");
       }
     });
   }, [])
 
   return (
-    <div className="flex h-full flex-col md:flex-row"> 
+    <div className="flex h-full flex-col md:flex-row">
       <Wrapper apiKey={GOOGLE_MAPS_API_KEY}>
         <Map>
           {markers.map((marker: markerCardInfo, i: number) =>
@@ -73,17 +79,17 @@ function App() {
         </Map>
       </Wrapper>
 
-      {userSignedIn && 
-        <MarkerCardSidebar 
-        markers={markers} 
-        setMarkerList={setMarkers} 
-        setActiveMarker={setActiveMarkerID}
-        fireStoreDB={db}
-        authUser={auth} /> 
+      {userSignedIn &&
+        <MarkerCardSidebar
+          markers={markers}
+          setMarkerList={setMarkers}
+          setActiveMarker={setActiveMarkerID}
+          fireStoreDB={db}
+          authUser={auth} />
       }
-      {!userSignedIn && 
-        <ChooseAccount 
-          googleApp={app}/>  
+      {!userSignedIn &&
+        <ChooseAccount
+          googleApp={app} />
       }
     </div>
   );

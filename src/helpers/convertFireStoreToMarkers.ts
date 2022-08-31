@@ -5,7 +5,7 @@ export default function convertFireStoreToMarkers(firestoreData) {
 
     firestoreData.map((data) => {
         let marker: markerCardInfo = {}
-        let {locationName, locationDescription} = data;
+        let { locationName, locationDescription } = data;
 
         marker.locationName = locationName;
         marker.locationDescription = locationDescription;

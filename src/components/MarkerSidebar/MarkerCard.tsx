@@ -32,7 +32,7 @@ export default function MarkerCard({ marker, markerList, setMarkerList, setActiv
 
         let markersRef = doc(fireStoreDB, 'users', authUser.currentUser.email)
         let markers = convertMarkersToFireStore(newMarkers);
-        await setDoc(markersRef, {markers});
+        await setDoc(markersRef, { markers });
         setMarkerList(newMarkers);
     }
 
