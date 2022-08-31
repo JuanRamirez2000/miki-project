@@ -6,9 +6,6 @@ steps:
   - name: node
     entrypoint: npm
     args: ['run', 'build']
-
-  - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy", "app.yaml"]
     secretEnv: [
       'REACT_APP_MAPS_API_KEY',
       'G_GEOCODING_API_KEY',
@@ -19,6 +16,9 @@ steps:
       'REACT_APP_FIREBASE_MESSAGING_SENDER_ID',
       'REACT_APP_FIREBASE_APP_ID'
     ]
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "app.yaml"]
 
 availableSecrets:
   secretManager: 
