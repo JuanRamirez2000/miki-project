@@ -1,10 +1,12 @@
 import express, { Express, Request, Response } from "express";
 import { Client, LatLngLiteral } from "@googlemaps/google-maps-services-js";
 import * as dotenv from 'dotenv';
+import * as cors from 'cors';
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
 const client = new Client({});
+app.use(cors());
 
 dotenv.config();
 const G_MAPS_API_KEY: string = process.env.G_GEOCODING_API_KEY as string
