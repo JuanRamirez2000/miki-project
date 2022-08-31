@@ -7,7 +7,7 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 const client = new Client({});
 app.use(cors({
-    origin: 'https://miki-photobook.wl.r.appspot.com/'
+    origin: '*'
 }));
 
 dotenv.config();
