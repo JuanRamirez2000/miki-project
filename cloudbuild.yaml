@@ -18,6 +18,9 @@ steps:
     ]
 
   - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "dispatch.yaml"]
+
+  - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "app.yaml"]
 
 availableSecrets:

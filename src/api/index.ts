@@ -9,7 +9,7 @@ const client = new Client({});
 dotenv.config();
 const G_MAPS_API_KEY: string = process.env.G_GEOCODING_API_KEY as string
 
-app.get('/findPlace', async (req: Request, res: Response) => {
+app.get('/api/findPlace', async (req: Request, res: Response) => {
     let coordinates: LatLngLiteral | undefined;
     let result = await client.geocode({
         params: {
