@@ -8,7 +8,9 @@ const port = process.env.PORT || 8080;
 const client = new Client({});
 dotenv.config();
 
-app.use(cors())
+app.use(cors({
+    origin: "https://miki-photobook.wl.r.appspot.com/"
+}))
 
 const G_MAPS_API_KEY: string = process.env.G_GEOCODING_API_KEY as string
 
