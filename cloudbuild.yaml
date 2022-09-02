@@ -1,10 +1,10 @@
 steps:  
   #Handle frontend build
-  - name: npm
+  - name: gcr.io/cloud-builders/npm
     entrypoint: npm
     args: ['--prefix', '/frontend' ,'install']
 
-  - name: node
+  - name: gcr.io/cloud-builders/npm
     entrypoint: npm
     args: ['run', '--prefix', '/frontend', 'build']
     secretEnv: [
@@ -18,7 +18,7 @@ steps:
     ]
 
   #Handle the backend build
-  - name: npm
+  - name: gcr.io/cloud-builders/npm
     entrypoint: npm
     args: ['--prefix', '/backend' ,'install']
     secretEnv:

@@ -8,7 +8,7 @@ const port = process.env.PORT || 8080;
 const client = new Client({});
 dotenv.config();
 
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
 const G_MAPS_API_KEY: string = process.env.G_GEOCODING_API_KEY as string
 
@@ -34,7 +34,7 @@ app.get('/api', (req, res) => {
 });
 
 app.get('*', (req, res) => 
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+    res.sendFile(path.join(__dirname, "../frontend", "build", "index.html"))
 )
 
 app.listen(port, () => {
