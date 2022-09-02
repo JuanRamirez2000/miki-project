@@ -27,7 +27,7 @@ steps:
 
   # Build both frontend and backend
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy", "client.yaml", "api.yaml"]
+    args: ["app", "deploy", "/frontend/client.yaml", "/backend/api.yaml"]
 
 availableSecrets:
   secretManager: 
