@@ -41,8 +41,8 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
                 })
             });
             setMarkers(newMarkers);
+            */
         }
-        */
     }
     return (
         <div>
