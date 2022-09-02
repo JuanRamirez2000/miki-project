@@ -24,7 +24,6 @@ steps:
     secretEnv:
       - "G_GEOCODING_API_KEY"
 
-
   # Build both frontend and backend
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "./frontend/client.yaml", "./backend/api.yaml"]

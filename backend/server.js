@@ -1,8 +1,8 @@
-import express, { Express, Request, Response } from "express";
-import { Client, LatLngLiteral } from "@googlemaps/google-maps-services-js";
+import express from "express";
+import { Client } from "@googlemaps/google-maps-services-js";
 import * as dotenv from 'dotenv';
 
-const app: Express = express();
+const app= express();
 const port = process.env.PORT || 8080;
 const client = new Client({});
 dotenv.config();
@@ -13,14 +13,14 @@ app.use((req, res, next) => {
     next();
 })
 
-const G_MAPS_API_KEY: string = process.env.G_GEOCODING_API_KEY as string
+const G_MAPS_API_KEY = process.env.G_GEOCODING_API_KEY
 
-app.get('/api/findPlace', async (req: Request, res: Response) => {
-    let coordinates: LatLngLiteral | undefined;
+app.get('/api/findPlace', async (req, res) => {
+    let coordinates;
     let result = await client.geocode({
         params: {
             key: G_MAPS_API_KEY,
-            address: req.query.location as string
+            address: req.query.location
         }
     })
     if (result.status === 200){
