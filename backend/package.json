@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.16",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-openid-connect": "^2.8.0",
+    "nodemon": "^2.0.19",
+    "typescript": "^4.8.2"
+  },
   "scripts": {
     "start": "ts-node server.ts",
     "start-dev": "nodemon server.ts",
