@@ -30,8 +30,7 @@
         
     "include": [
         "./**/*.ts",
-        "./**/*.tsx"
-, "../backend/server.ts"    ],
+        "./**/*.tsx"],
     "exclude": [
         "node_modules/**/*"
     ],

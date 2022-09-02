@@ -8,5 +8,5 @@
 /frontend/build
 
 #enviornment variable holders
-/frontned/.env
+/frontend/.env
 /backend/.env
