@@ -19,17 +19,15 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
         setShowForm(false);
         let newLocation: markerCardInfo = {};
         //Grab coordinate information from Google Maps GeoCoding API
-        let res = await axios.get('/api/findPlace', {   
-            headers: {
-                "Accept": "applicaiton/json",
-                "Content-Type": "Application/json"
-            },
+        let res = await axios.get('/api/', {   
             params: {
                 location: data.locationAddress
             }
         });
 
         if (res.status === 200) {
+            console.log(res.data);
+            /*
             newLocation = data;
             newLocation.locationCoordinates = res.data;
 
@@ -44,6 +42,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
             });
             setMarkers(newMarkers);
         }
+        */
     }
     return (
         <div>

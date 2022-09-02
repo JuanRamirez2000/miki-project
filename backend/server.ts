@@ -1,14 +1,14 @@
 import express, { Express, Request, Response } from "express";
 import { Client, LatLngLiteral } from "@googlemaps/google-maps-services-js";
 import * as dotenv from 'dotenv';
-import path from 'path';
+import cors from 'cors'
 
 const app: Express = express();
 const port = process.env.PORT || 8080;
 const client = new Client({});
 dotenv.config();
 
-app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+app.use(cors())
 
 const G_MAPS_API_KEY: string = process.env.G_GEOCODING_API_KEY as string
 
@@ -29,13 +29,9 @@ app.get('/api/findPlace', async (req: Request, res: Response) => {
     }
 });
 
-app.get('/api', (req, res) => {
-    res.send("testing");
-});
-
-app.get('*', (req, res) => 
-    res.sendFile(path.join(__dirname, "../frontend", "build", "index.html"))
-)
+app.get('/api/', (req, res) => {
+    res.send("Hello")
+})
 
 app.listen(port, () => {
     console.log("Server Started on port", port)
