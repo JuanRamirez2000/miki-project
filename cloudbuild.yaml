@@ -1,14 +1,14 @@
-steps:
-  - name: node
+steps:  
+  #Handle frontend build
+  - name: npm
     entrypoint: npm
-    args: ['install']
+    args: ['--prefix', '/frontend' ,'install']
 
   - name: node
     entrypoint: npm
-    args: ['run', 'build']
+    args: ['run', '--prefix', '/frontend', 'build']
     secretEnv: [
       'REACT_APP_MAPS_API_KEY',
-      'G_GEOCODING_API_KEY',
       'REACT_APP_FIREBASE_API_KEY',
       'REACT_APP_FIREBASE_AUTH_DOMAIN',
       'REACT_APP_FIREBASE_PROJECT_ID',
@@ -17,8 +17,17 @@ steps:
       'REACT_APP_FIREBASE_APP_ID'
     ]
 
+  #Handle the backend build
+  - name: npm
+    entrypoint: npm
+    args: ['--prefix', '/backend' ,'install']
+    secretEnv:
+      - "G_GEOCODING_API_KEY"
+
+
+  # Build both frontend and backend
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy", "api.yaml", "client.yaml", "dispatch.yaml"]
+    args: ["app", "deploy", "client.yaml", "api.yaml"]
 
 availableSecrets:
   secretManager: 

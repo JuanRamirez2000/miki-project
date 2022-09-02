@@ -1,20 +1,14 @@
 import express, { Express, Request, Response } from "express";
 import { Client, LatLngLiteral } from "@googlemaps/google-maps-services-js";
 import * as dotenv from 'dotenv';
-import cors from 'cors';
+import path from 'path';
 
 const app: Express = express();
 const port = process.env.PORT || 8080;
 const client = new Client({});
 dotenv.config();
 
-app.use(cors())
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://miki-photobook.wl.r.appspot.co")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-})
-
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 const G_MAPS_API_KEY: string = process.env.G_GEOCODING_API_KEY as string
 
@@ -35,9 +29,13 @@ app.get('/api/findPlace', async (req: Request, res: Response) => {
     }
 });
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send("testing");
 });
+
+app.get('*', (req, res) => 
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+)
 
 app.listen(port, () => {
     console.log("Server Started on port", port)

@@ -19,7 +19,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
         setShowForm(false);
         let newLocation: markerCardInfo = {};
         //Grab coordinate information from Google Maps GeoCoding API
-        let res = await axios.get('https://miki-photobook.wl.r.appspot.co', {   
+        let res = await axios.get('/api/findPlace', {   
             headers: {
                 "Accept": "applicaiton/json",
                 "Content-Type": "Application/json"
