@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useRef, useState, useEffect } from "react";
 import MapProps from "src/interfaces/mapProps";
 
