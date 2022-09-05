@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Auth } from "firebase/auth";
-//import { doc, Firestore, updateDoc, arrayUnion } from "firebase/firestore";
-import { Firestore } from "firebase/firestore";
+import { doc, Firestore, updateDoc, arrayUnion } from "firebase/firestore";
 import { Dispatch } from "react";
 import { useForm } from "react-hook-form";
 import markerCardInfo from "src/interfaces/markerCardInfo";
@@ -18,7 +17,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
     //Function used to add a new form
     const onFormSubmit = async (data: markerCardInfo) => {
         setShowForm(false);
-        //let newLocation: markerCardInfo = {};
+        let newLocation: markerCardInfo = {};
         //Grab coordinate information from Google Maps GeoCoding API
         let res = await axios.get('https://api-dot-miki-photobook.wl.r.appspot.com/api/findPlace', {   
             params: {
@@ -27,8 +26,6 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
         });
 
         if (res.status === 200) {
-            console.log(res.data);
-            /*
             newLocation = data;
             newLocation.locationCoordinates = res.data;
 
@@ -42,7 +39,6 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
                 })
             });
             setMarkers(newMarkers);
-            */
         }
     }
     return (
