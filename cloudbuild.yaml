@@ -39,9 +39,6 @@ availableSecrets:
     - versionName: projects/miki-photobook/secrets/REACT_APP_MAPS_API_KEY/versions/latest
       env: 'REACT_APP_MAPS_API_KEY'
 
-    - versionName: projects/miki-photobook/secrets/G_GEOCODING_API_KEY/versions/latest
-      env: 'G_GEOCODING_API_KEY'
-
     - versionName: projects/miki-photobook/secrets/REACT_APP_FIREBASE_API_KEY/versions/latest
       env: 'REACT_APP_FIREBASE_API_KEY'
 
