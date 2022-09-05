@@ -12,8 +12,7 @@
         "moduleResolution": "node",
         // Linter Checks
         "noImplicitReturns": false,
-        "resolveJsonModule": true,
-        "module": "ESNext"
+        "resolveJsonModule": true    
     },
     "include": [
         "./**/*.ts",
