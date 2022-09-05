@@ -1,3 +1,4 @@
+import { LatLngLiteral } from "@googlemaps/google-maps-services-js";
 import axios from "axios";
 import { Auth } from "firebase/auth";
 import { doc, Firestore, updateDoc, arrayUnion } from "firebase/firestore";
@@ -27,7 +28,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
 
         if (res.status === 200) {
             newLocation = data;
-            newLocation.locationCoordinates = res.data;
+            newLocation.locationCoordinates = res.data as LatLngLiteral;
 
             let newMarkers = [...markers, newLocation];
             const markersRef = doc(fireStoreDB, 'users', authUser.currentUser.email);

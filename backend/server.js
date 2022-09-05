@@ -1,10 +1,10 @@
-import express, { Express } from "express";
-import { Client, LatLngLiteral } from "@googlemaps/google-maps-services-js";
+import express  from "express";
+import { Client } from "@googlemaps/google-maps-services-js";
 import {SecretManagerServiceClient} from "@google-cloud/secret-manager";
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 
-const app: Express= express();
+const app = express();
 const port = process.env.PORT || 8080;
 const client = new Client({});
 const secretClient = new SecretManagerServiceClient();
@@ -31,13 +31,13 @@ const getSecret = async () => {
 }
 app.get('/api/findPlace', async (req, res) => {
     console.log('test2');
-    let coordinates: LatLngLiteral;
-    let G_GEOCODING_API_KEY = await getSecret() as string;
+    let coordinates ;
+    let G_GEOCODING_API_KEY = await getSecret();
     try {
         let result = await client.geocode({
             params: {
-                key: G_GEOCODING_API_KEY as string,
-                address: req.query.location as string
+                key: G_GEOCODING_API_KEY ,
+                address: req.query.location 
             }
         })
         if (result.status === 200){
