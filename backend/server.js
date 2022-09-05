@@ -37,7 +37,7 @@ app.get('/api/findPlace', async (req, res) => {
 
 app.get('/api/', (req, res) => {
     console.log("This is a test");
-    res.send("Hello")
+    res.send(G_MAPS_API_KEY);
 })
 
 app.listen(port, () => {
