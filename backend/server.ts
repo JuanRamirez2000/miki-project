@@ -11,7 +11,12 @@ const secretClient = new SecretManagerServiceClient();
 const secretName = 'projects/865442466714/secrets/G_GEOCODING_API_KEY/versions/2';
 dotenv.config();
 
-app.use(cors())
+app.use(cors({
+    origin: [
+        'https://localhost',
+        'https://miki-photobook.wl.r.appspot.com/'
+    ]
+}))
 
 const getSecret = async () => {
     try {
@@ -25,6 +30,7 @@ const getSecret = async () => {
     }
 }
 app.get('/api/findPlace', async (req, res) => {
+    console.log('test2');
     let coordinates: LatLngLiteral;
     let G_GEOCODING_API_KEY = await getSecret() as string;
     try {
