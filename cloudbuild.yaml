@@ -25,11 +25,6 @@ steps:
     dir: 'backend'
     args: ['install']
 
-  - name: gcr.io/cloud-builders/npm
-    entrypoint: npm
-    dir: 'backend'
-    args: ['start']
-
   # Build both frontend and backend
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy", "./frontend/client.yaml", "./backend/api.yaml"]
