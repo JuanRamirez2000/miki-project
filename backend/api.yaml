@@ -1,7 +1,2 @@
 runtime: nodejs16
 service: api
-
-handlers:
-- url: /api/findPlace
-  http_headers:
-    Access-Control-Allow-Origin: '*'

@@ -12,10 +12,7 @@ const secretName = 'projects/865442466714/secrets/G_GEOCODING_API_KEY/versions/2
 dotenv.config();
 
 app.use(cors({
-    origin: [
-        'https://localhost',
-        'https://miki-photobook.wl.r.appspot.com/'
-    ],
+    origin: '*',
     allowedHeaders: [
         'Origin, X-Requested-With, Content-Typem Accept'
     ]
