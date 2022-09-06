@@ -41,6 +41,7 @@ app.get('/api/findPlace', async (req, res) => {
         })
         if (result.status === 200){
             coordinates = result.data.results[0]?.geometry.location;
+            console.log(coordinates);
             res.send(coordinates)
         }
     }
