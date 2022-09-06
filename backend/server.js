@@ -15,6 +15,9 @@ app.use(cors({
     origin: [
         'https://localhost',
         'https://miki-photobook.wl.r.appspot.com/'
+    ],
+    allowedHeaders: [
+        'Origin, X-Requested-With, Content-Typem Accept'
     ]
 }))
 

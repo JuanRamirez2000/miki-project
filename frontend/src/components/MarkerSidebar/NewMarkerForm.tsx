@@ -23,7 +23,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
         let res = await axios.get('https://api-dot-miki-photobook.wl.r.appspot.com/api/findPlace', {   
             params: {
                 location: data.locationAddress
-            }
+            },
         });
 
         if (res.status === 200) {
@@ -42,6 +42,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
             });
             setMarkers(newMarkers);
         }
+        console.log(res);
     }
     return (
         <div>
