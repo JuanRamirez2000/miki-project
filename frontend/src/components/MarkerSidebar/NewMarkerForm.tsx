@@ -27,6 +27,7 @@ export default function LocationForm({ markers, setMarkers, setShowForm, fireSto
         });
 
         if (res.status === 200) {
+            console.log(res);
             newLocation = data;
             newLocation.locationCoordinates = res.data as LatLngLiteral;
 

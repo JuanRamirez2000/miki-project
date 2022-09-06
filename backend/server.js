@@ -30,7 +30,6 @@ const getSecret = async () => {
     }
 }
 app.get('/api/findPlace', async (req, res) => {
-    console.log('test2');
     let coordinates ;
     let G_GEOCODING_API_KEY = await getSecret();
     try {
@@ -48,10 +47,6 @@ app.get('/api/findPlace', async (req, res) => {
     catch (err) {
         res.send(err);
     }
-})
-app.get('/api/', (req, res) => {
-    console.log('test');
-    res.send("test");
 })
 
 app.listen(port, () => {
